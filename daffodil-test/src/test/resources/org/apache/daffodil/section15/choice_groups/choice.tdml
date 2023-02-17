@@ -2046,4 +2046,94 @@ it sure is/
     </tdml:infoset>
   </tdml:parserTestCase>
 
+  <tdml:defineSchema name="choiceFlag">
+    <xs:include schemaLocation="org/apache/daffodil/xsd/DFDLGeneralFormat.dfdl.xsd"/>
+    <dfdl:format ref="ex:GeneralFormat" />
+
+    <xs:group name="isDigit">
+      <xs:sequence>
+        <xs:element name="isDigit" type="xs:string"
+                    dfdl:lengthKind="explicit" dfdl:length="0" dfdl:outputValueCalc="{'D'}"/>
+      </xs:sequence>
+    </xs:group>
+
+    <xs:group name="noDigit">
+      <xs:sequence>
+        <xs:element name="noDigit" type="xs:string"
+                    dfdl:lengthKind="explicit" dfdl:length="0" dfdl:outputValueCalc="{'N'}"/>
+      </xs:sequence>
+    </xs:group>
+
+    <xs:element name="root">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:choice>
+            <xs:sequence>
+              <xs:sequence dfdl:hiddenGroupRef="isDigit"/>
+              <xs:sequence>
+                <xs:element name="even" type="xs:string" dfdl:lengthKind="pattern" dfdl:lengthPattern="[02468]" minOccurs="0"/>
+                <xs:element name="odd"  type="xs:string" dfdl:lengthKind="pattern" dfdl:lengthPattern="[13579]" minOccurs="0"/>
+              </xs:sequence>
+            </xs:sequence>
+            <xs:sequence>
+              <xs:sequence dfdl:hiddenGroupRef="noDigit"/>
+              <xs:element name="vowel" type="xs:string" dfdl:lengthKind="pattern" dfdl:lengthPattern="[AEIOU]" minOccurs="0"/>
+            </xs:sequence>
+          </xs:choice>
+          <xs:element name="value" type="xs:string" dfdl:lengthKind="explicit" dfdl:length="1"/>
+          <xs:element name="topChoice" type="xs:string" dfdl:inputValueCalc="{fn:exists(../ex:isDigit)}"/>
+          <xs:element name="bottomChoice" type="xs:string" dfdl:inputValueCalc="{fn:exists(../ex:noDigit)}"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </tdml:defineSchema>
+
+  <tdml:parserTestCase name="choiceFlagEven" model="choiceFlag">
+    <tdml:document>
+      <tdml:documentPart type="text">2A</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <root>
+          <even>2</even>
+          <value>A</value>
+          <topChoice>true</topChoice>
+          <bottomChoice>false</bottomChoice>
+        </root>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
+  <tdml:parserTestCase name="choiceFlagOdd" model="choiceFlag">
+    <tdml:document>
+      <tdml:documentPart type="text">3A</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <root>
+          <odd>3</odd>
+          <value>A</value>
+          <topChoice>true</topChoice>
+          <bottomChoice>false</bottomChoice>
+        </root>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
+  <tdml:parserTestCase name="choiceFlagChar" model="choiceFlag">
+    <tdml:document>
+      <tdml:documentPart type="text">AC</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <root>
+          <vowel>A</vowel>
+          <value>C</value>
+          <topChoice>false</topChoice>
+          <bottomChoice>true</bottomChoice>
+        </root>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
 </tdml:testSuite>
