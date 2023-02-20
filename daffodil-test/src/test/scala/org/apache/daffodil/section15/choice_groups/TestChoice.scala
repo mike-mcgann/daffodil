@@ -160,9 +160,6 @@ class TestChoice {
   @Test def test_direct_dispatch_16(): Unit = { runnerCH.runOneTest("direct_dispatch_16") }
   @Test def test_direct_dispatch_17(): Unit = { runnerCH.runOneTest("direct_dispatch_17") }
 
-  @Test def test_presenceByChoice1(): Unit = { runnerCH.runOneTest("presenceByChoice1") }
-  @Test def test_presenseByChoice2(): Unit = { runnerCH.runOneTest("presenceByChoice2") }
-
   // DAFFODIL-2562
   // @Test def test_dispatch_group_choice(): Unit = { runnerCH.runOneTest("dispatch_group_choice") }
 

@@ -37,12 +37,28 @@ class TestPresenceByChoice {
 
   import TestPresenceByChoice._
 
-  @Test def test_presenceByChoice1(): Unit = {
-    runner.runOneTest("presenceByChoice1")
+  @Test def test_presenceByChoice_1_1(): Unit = {
+    runner.runOneTest("presenceByChoice_1_1")
   }
 
-  @Test def test_presenceByChoice2(): Unit = {
-    runner.runOneTest("presenceByChoice2")
+  @Test def test_presenceByChoice_1_2(): Unit = {
+    runner.runOneTest("presenceByChoice_1_2")
+  }
+
+  @Test def test_presenceByChoice_2_1(): Unit = {
+    runner.runOneTest("presenceByChoice_2_1")
+  }
+
+  @Test def test_presenceByChoice_2_2(): Unit = {
+    runner.runOneTest("presenceByChoice_2_2")
+  }
+
+  @Test def test_presenceByChoice_emptyFirst(): Unit = {
+    runner.runOneTest("presenceByChoice_emptyFirst")
+  }
+
+    @Test def test_presenceByChoice_emptySecond(): Unit = {
+    runner.runOneTest("presenceByChoice_emptySecond")
   }
 }
 
