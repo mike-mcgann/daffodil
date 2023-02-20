@@ -57,8 +57,17 @@ class TestPresenceByChoice {
     runner.runOneTest("presenceByChoice_emptyFirst")
   }
 
-    @Test def test_presenceByChoice_emptySecond(): Unit = {
+  @Test def test_presenceByChoice_emptyFirst_notEmpty(): Unit = {
+    runner.runOneTest("presenceByChoice_emptyFirst_notEmpty")
+  }
+
+  @Test def test_presenceByChoice_emptySecond(): Unit = {
     runner.runOneTest("presenceByChoice_emptySecond")
   }
+
+  @Test def test_presenceByChoice_emptySecond_notEmpty(): Unit = {
+    runner.runOneTest("presenceByChoice_emptySecond_notEmpty")
+  }
+
 }
 

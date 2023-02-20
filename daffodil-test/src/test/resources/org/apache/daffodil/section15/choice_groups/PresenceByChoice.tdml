@@ -229,12 +229,17 @@
             <xs:sequence dfdl:hiddenGroupRef="ex:empty" />
             <xs:sequence>
               <xs:sequence dfdl:hiddenGroupRef="ex:notEmpty" />
-              <xs:element name="foo" type="xs:string" minOccurs="0" dfdl:lengthKind="pattern" dfdl:lengthPattern="foo" />
-              <xs:element name="bar" type="xs:string" minOccurs="0" dfdl:lengthKind="pattern" dfdl:lengthPattern="bar" />
+              <xs:element name="foo" type="xs:string" minOccurs="0"
+                          dfdl:initiator="foo"
+                          dfdl:lengthKind="explicit" dfdl:length="1"/>
+              <xs:element name="bar" type="xs:string" minOccurs="0"
+                          dfdl:initiator="bar"
+                          dfdl:lengthKind="explicit" dfdl:length="1"/>
             </xs:sequence>
           </xs:choice>
           <xs:element name="firstChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:empty) }"/>
           <xs:element name="secondChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:notEmpty) }"/>
+          <xs:element name="remainder" minOccurs="0" type="xs:string" dfdl:lengthKind="explicit" dfdl:length="8"/>
         </xs:sequence>
       </xs:complexType>
     </xs:element>
@@ -245,13 +250,18 @@
           <xs:choice>
             <xs:sequence>
               <xs:sequence dfdl:hiddenGroupRef="ex:notEmpty" />
-              <xs:element name="foo" type="xs:string" minOccurs="0" dfdl:lengthKind="pattern" dfdl:lengthPattern="foo" />
-              <xs:element name="bar" type="xs:string" minOccurs="0" dfdl:lengthKind="pattern" dfdl:lengthPattern="bar" />
+              <xs:element name="foo" type="xs:string" minOccurs="0"
+                          dfdl:initiator="foo"
+                          dfdl:lengthKind="explicit" dfdl:length="1"/>
+              <xs:element name="bar" type="xs:string" minOccurs="0"
+                          dfdl:initiator="bar"
+                          dfdl:lengthKind="explicit" dfdl:length="1"/>
             </xs:sequence>
             <xs:sequence dfdl:hiddenGroupRef="ex:empty" />
           </xs:choice>
-          <xs:element name="firstChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:empty) }"/>
-          <xs:element name="secondChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:notEmpty) }"/>
+          <xs:element name="firstChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:notEmpty) }"/>
+          <xs:element name="secondChoice" type="xs:boolean" dfdl:lengthKind="implicit" dfdl:inputValueCalc="{ fn:exists(../ex:empty) }"/>
+          <xs:element name="remainder" minOccurs="0" type="xs:string" dfdl:lengthKind="explicit" dfdl:length="8"/>
         </xs:sequence>
       </xs:complexType>
     </xs:element>
@@ -266,8 +276,24 @@
     <tdml:infoset>
       <tdml:dfdlInfoset>
         <emptyFirst>
-          <ex:firstChoice>true</ex:firstChoice>
-          <ex:secondChoice>false</ex:secondChoice>
+          <firstChoice>true</firstChoice>
+          <secondChoice>false</secondChoice>
+        </emptyFirst>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
+  <tdml:parserTestCase name="presenceByChoice_emptyFirst_notEmpty" root="emptyFirst"
+                       model="presenceByChoice_empty">
+    <tdml:document>
+      <tdml:documentPart type="text">foo1bar2</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <emptyFirst>
+          <firstChoice>true</firstChoice>
+          <secondChoice>false</secondChoice>
+          <remainder>foo1bar2</remainder>
         </emptyFirst>
       </tdml:dfdlInfoset>
     </tdml:infoset>
@@ -281,8 +307,25 @@
     <tdml:infoset>
       <tdml:dfdlInfoset>
         <emptySecond>
-          <ex:firstChoice>false</ex:firstChoice>
-          <ex:secondChoice>true</ex:secondChoice>
+          <firstChoice>true</firstChoice>
+          <secondChoice>false</secondChoice>
+        </emptySecond>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
+  <tdml:parserTestCase name="presenceByChoice_emptySecond_notEmpty" root="emptySecond"
+                       model="presenceByChoice_empty">
+    <tdml:document>
+      <tdml:documentPart type="text">foo1bar2</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <emptySecond>
+          <foo>1</foo>
+          <bar>2</bar>
+          <firstChoice>true</firstChoice>
+          <secondChoice>false</secondChoice>
         </emptySecond>
       </tdml:dfdlInfoset>
     </tdml:infoset>
